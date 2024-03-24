@@ -3,7 +3,7 @@ import { app } from "./app";
 
 const express = require('express');
 
-const port = process.env.post || 3000;
+const port = process.env.post || 3306;
 const   server = http.createServer(app);
 
 

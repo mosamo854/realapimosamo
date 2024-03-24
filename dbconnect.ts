@@ -5,10 +5,10 @@ import util from "util";
 export const conn = mysql.createPool(
     {
         connectionLimit: 10,
-        host: "localhost",
-        user: "project2",
-        password: "1234",
-        database: "project_fakemash",
+        host: "sql6.freemysqlhosting.net",
+        user: "sql6693918",
+        password: "b3u3DsLYzX",
+        database: "sql6693918",
     }
 );
 export const queryAsync = util.promisify(conn.query).bind(conn);

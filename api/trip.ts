@@ -255,19 +255,33 @@ router.post("/insert", (req, res) => {
 router.post("/image/:id/vote", async (req, res) => {
   const imageId = req.params.id;
 
-  const sql = "UPDATE img SET score_img = score_img + 1 WHERE iid = ?";
+  const now = new Date(); // รับวันที่และเวลาปัจจุบัน
 
-  conn.query(sql, [imageId], (error, results, fields) => {
+  const sqlVote = "INSERT INTO vote (iid, uid, date, score) VALUES (?, ?, ?, 1) ON DUPLICATE KEY UPDATE score = score + 1";
+
+  conn.query(sqlVote, [imageId, now], (error, results, fields) => {
     if (error) {
-      console.error('Error updating score:', error);
+      console.error('Error updating vote:', error);
       res.status(500).json({ error: "Internal Server Error" });
       return;
     }
 
-    console.log('Score updated successfully');
-    res.status(200).json({ message: "Score increased successfully" });
-  })
+    console.log('Vote updated successfully');
+
+    const sqlUpdateScore = "UPDATE img SET score_img = score_img + 1 WHERE iid = ?";
+    conn.query(sqlUpdateScore, [imageId], (error, results, fields) => {
+      if (error) {
+        console.error('Error updating score:', error);
+        res.status(500).json({ error: "Internal Server Error" });
+        return;
+      }
+
+      console.log('Score updated successfully');
+      res.status(200).json({ message: "Vote and score increased successfully" });
+    });
+  });
 });
+
 
 router.delete("/delete/:id", (req, res) => {
   let id = +req.params.id;

@@ -255,23 +255,9 @@ router.post("/insert", (req, res) => {
 router.post("/image/:id/vote", async (req, res) => {
   const imageId = req.params.id;
 
-  const now = new Date();
-
   const sql = "UPDATE img SET score_img = score_img + 1 WHERE iid = ?";
-  const sql2 = "INSERT INTO vote (iid, uid, date) VALUES (?, ?, ?)";
 
-  conn.query(sql, [imageId, now], (error,  results, fields) => {
-    if (error) {
-      console.error('Error updating score:', error);
-      res.status(500).json({ error: "Internal Server Error" });
-      return;
-    }
-
-    console.log('Score updated successfully');
-    res.status(200).json({ message: "Score increased successfully" });
-  })
-
-  conn.query(sql2, [imageId], (error, results, fields) => {
+  conn.query(sql, [imageId], (error, results, fields) => {
     if (error) {
       console.error('Error updating score:', error);
       res.status(500).json({ error: "Internal Server Error" });

@@ -269,25 +269,6 @@ router.post("/image/:id/vote", async (req, res) => {
   })
 });
 
-router.post("/image/:id/voted", async (req, res) => {
-  const imageId = req.params.id;
-
-  const now = new Date();
-
-  const sqlVote = "INSERT INTO vote (iid, uid, date, score) VALUES (?, ?, ?, 1)";
-
-  conn.query(sqlVote, [imageId, now], (error, results, fields) => {
-    if (error) {
-      console.error('Error updating score:', error);
-      res.status(500).json({ error: "Internal Server Error" });
-      return;
-    }
-
-    console.log('Score updated successfully');
-    res.status(200).json({ message: "Score increased successfully" });
-  })
-});
-
 router.delete("/delete/:id", (req, res) => {
   let id = +req.params.id;
   conn.query("delete from user where idx = ?", [id], (err, result) => {

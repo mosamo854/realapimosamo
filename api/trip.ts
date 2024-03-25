@@ -258,7 +258,7 @@ router.post("/image/:id/vote", async (req, res) => {
   const now = new Date();
 
   const sql = "UPDATE img SET score_img = score_img + 1 WHERE iid = ?";
-  const sql2 = "INSERT INTO vote (iid, uid, date, score) VALUES (?, ?, ?, 1) ON DUPLICATE KEY UPDATE score = score + 1";
+  const sql2 = "INSERT INTO vote (iid, uid, date) VALUES (?, ?, ?)";
 
   conn.query(sql, [imageId, now], (error, fields) => {
     if (error) {

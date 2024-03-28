@@ -196,7 +196,7 @@ router.get('/ranking', (req, res) => {
 });
 
 router.get("/random", (req, res) => {
-  const sql = "SELECT * FROM img ORDER BY RAND() LIMIT 2";
+  const sql = "SELECT DISTINCT * FROM img ORDER BY RAND() LIMIT 2";
   conn.query(sql, (err, result) => {
     if (err) {
       res.json(err);
